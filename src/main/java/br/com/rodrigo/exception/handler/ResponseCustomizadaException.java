@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.rodrigo.exception.ExceptionResponseModelo;
 import br.com.rodrigo.exception.OperacaoNaoSuportadaException;
+import br.com.rodrigo.exception.ResourceNotFoundException;
 
 @ControllerAdvice
 @RestController
@@ -29,6 +30,12 @@ public class ResponseCustomizadaException extends ResponseEntityExceptionHandler
 	public final ResponseEntity<ExceptionResponseModelo> handleBadRequestException(Exception ex, WebRequest req){
 		ExceptionResponseModelo erm = new ExceptionResponseModelo(new Date(), ex.getMessage(), req.getDescription(false));
 		return new ResponseEntity<>(erm, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public final ResponseEntity<ExceptionResponseModelo> handleNotFoundException(Exception ex, WebRequest req){
+		ExceptionResponseModelo erm = new ExceptionResponseModelo(new Date(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<>(erm, HttpStatus.NOT_FOUND);
 	}
 
 }

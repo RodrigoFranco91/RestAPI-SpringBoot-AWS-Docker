@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.rodrigo.exception.ResourceNotFoundException;
 import br.com.rodrigo.modelo.Pessoa;
 import br.com.rodrigo.repository.PersonRepository;
 
@@ -25,7 +26,7 @@ public class PessoaService {
 	}
 	
 	public Pessoa readById(Long id) {
-		return repositorio.findById(id).orElseThrow();
+		return repositorio.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada com este id"));
 	}
 	
 	public List<Pessoa> readAll (){
