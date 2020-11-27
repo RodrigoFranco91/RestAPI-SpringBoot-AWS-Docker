@@ -4,41 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.rodrigo.modelo.Pessoa;
+import br.com.rodrigo.repository.PersonRepository;
 
 @Service
 public class PessoaService {
 	
 	
 	//Como ainda nao estamos usando o banco de dados, vamos gerar um valor para ID automaticamente
-	private final AtomicLong idGerado = new AtomicLong();
+	//private final AtomicLong idGerado = new AtomicLong();
+	
+	@Autowired
+	PersonRepository repositorio;
 	
 	public Pessoa create (Pessoa p) {
-		p.setId(idGerado.incrementAndGet());
-		return p;
+		return repositorio.save(p);
 	}
 	
 	public Pessoa readById(Long id) {
-		Pessoa pessoa = new Pessoa();
-		pessoa.setId(idGerado.incrementAndGet());
-		pessoa.setNome("Rodrigo");
-		pessoa.setSobrenome("Franco");
-		pessoa.setSexo("Masculino");
-		pessoa.setEndereco("Rua Mariana Jacinta");
-		return pessoa;
+		return repositorio.findById(id).orElseThrow();
 	}
 	
 	public List<Pessoa> readAll (){
-		List<Pessoa> pessoas = new ArrayList<Pessoa>();
-		for (int i = 0; i < 10; i++) {
-			Pessoa p = criaPessoa(i);
-			pessoas.add(p);
-		}
-		return pessoas;
+		return repositorio.findAll();
 	}
 
+	public void deletePessoa(Long id) {
+		Pessoa p = repositorio.getOne(id);
+		repositorio.delete(p);;
+	}
+	
+	public Pessoa alteraPessoa(Pessoa p) {
+		Pessoa entity = repositorio.getOne(p.getId());
+		entity.setNome(p.getNome());
+		entity.setSobrenome(p.getSobrenome());
+		entity.setEndereco(p.getEndereco());
+		entity.setSexo(p.getSexo());
+		return repositorio.save(entity);
+	}
+	
+	/*
 	private Pessoa criaPessoa(int i) {
 		Pessoa pessoa = new Pessoa();
 		pessoa.setId(idGerado.incrementAndGet());
@@ -48,13 +56,6 @@ public class PessoaService {
 		pessoa.setEndereco("Brasil");
 		return pessoa;
 	}
-	
-	public void deletePessoa(Long id) {
-		
-	}
-	
-	public Pessoa alteraPessoa(Pessoa p) {
-		return p;
-	}
+	*/
 
 }
