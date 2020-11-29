@@ -1,33 +1,27 @@
-package br.com.rodrigo.modelo;
+package br.com.rodrigo.modelo.vo;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import br.com.rodrigo.modelo.Pessoa;
 
-import br.com.rodrigo.modelo.vo.PessoaVO;
 
-@Entity
-public class Pessoa implements Serializable{
+public class PessoaVO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String sobrenome;
 	private String endereco;
 	private String sexo;
 	
-	public void convertPessoaVOToPessoa(PessoaVO pessoaVO) {
-		this.id = pessoaVO.getId();
-		this.nome = pessoaVO.getNome();
-		this.sobrenome = pessoaVO.getSobrenome();
-		this.endereco = pessoaVO.getEndereco();
-		this.sexo = pessoaVO.getSexo();
+	
+	public void convertPessoaToPessoaVO(Pessoa pessoa) {
+		this.id = pessoa.getId();
+		this.nome = pessoa.getNome();
+		this.sobrenome = pessoa.getSobrenome();
+		this.endereco = pessoa.getEndereco();
+		this.sexo = pessoa.getSexo();
 	}
 	
 	public Long getId() {
@@ -60,6 +54,7 @@ public class Pessoa implements Serializable{
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,7 +66,6 @@ public class Pessoa implements Serializable{
 		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -80,7 +74,7 @@ public class Pessoa implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		PessoaVO other = (PessoaVO) obj;
 		if (endereco == null) {
 			if (other.endereco != null)
 				return false;
@@ -108,7 +102,5 @@ public class Pessoa implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 	
 }
