@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.rodrigo.converter.DozerConverter;
 import br.com.rodrigo.modelo.Pessoa;
 import br.com.rodrigo.modelo.vo.PessoaVO;
 import br.com.rodrigo.service.PessoaService;
@@ -27,12 +28,9 @@ public class PessoaController {
 
 	@PostMapping
 	public PessoaVO create(@RequestBody PessoaVO pessoaVO) {
-		Pessoa pessoa = new Pessoa();
-		pessoa.convertPessoaVOToPessoa(pessoaVO);
-		Pessoa pessoaGravada = ps.create(pessoa);
-		PessoaVO pessoaVORetorno = new PessoaVO();
-		pessoaVORetorno.convertPessoaToPessoaVO(pessoaGravada);
-		return pessoaVORetorno;
+		var entity = DozerConverter.parseObject(pessoaVO, Pessoa.class);
+		var vo = DozerConverter.parseObject(ps.create(entity), PessoaVO.class);
+		return vo;
 	}
 
 	@GetMapping("/{id}")
