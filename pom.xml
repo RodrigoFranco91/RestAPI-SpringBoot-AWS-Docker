@@ -58,12 +58,24 @@
 			<artifactId>dozer-core</artifactId>
 			<version>6.5.0</version>
 		</dependency>
-		
+
 		<dependency>
-		   <groupId>org.flywaydb</groupId>
-		   <artifactId>flyway-core</artifactId>
-		</dependency>  
-        
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- for XML support -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+	<!-- for YAML support -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -93,7 +105,7 @@
 						</exclusions>
 					</dependency>
 				</dependencies>
-			</plugin>	
+			</plugin>
 		</plugins>
 	</build>
 </project>

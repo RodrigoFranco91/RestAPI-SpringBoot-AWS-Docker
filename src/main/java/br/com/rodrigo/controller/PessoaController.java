@@ -26,14 +26,14 @@ public class PessoaController {
 	@Autowired
 	PessoaService ps;
 
-	@PostMapping
+	@PostMapping(produces = {"application/json","application/xml", "application/x-yaml"}, consumes = {"application/json","application/xml", "application/x-yaml"})
 	public PessoaVO create(@RequestBody PessoaVO pessoaVO) {
 		var entity = DozerConverter.parseObject(pessoaVO, Pessoa.class);
 		var vo = DozerConverter.parseObject(ps.create(entity), PessoaVO.class);
 		return vo;
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(value="/{id}", produces = {"application/json","application/xml", "application/x-yaml"} )
 	public PessoaVO readById(@PathVariable("id") Long id) {
 		Pessoa pessoa = ps.readById(id);
 		PessoaVO pessoaVO = new PessoaVO();
@@ -41,7 +41,7 @@ public class PessoaController {
 		return pessoaVO;
 	}
 	
-	@GetMapping
+	@GetMapping(produces = {"application/json","application/xml", "application/x-yaml" })
 	public List<PessoaVO> readAll(){
 		List<PessoaVO> pessoasVO = new ArrayList<PessoaVO>();
 		List<Pessoa> pessoas = ps.readAll();
@@ -60,7 +60,7 @@ public class PessoaController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PutMapping
+	@PutMapping(produces = {"application/json","application/xml" , "application/x-yaml"}, consumes = {"application/json","application/xml", "application/x-yaml"})
 	public PessoaVO update(@RequestBody PessoaVO p) {
 		Pessoa pessoa = new Pessoa();
 		pessoa.convertPessoaVOToPessoa(p);
