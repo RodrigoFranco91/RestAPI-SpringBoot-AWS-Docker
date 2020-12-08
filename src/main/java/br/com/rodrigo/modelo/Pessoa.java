@@ -23,7 +23,7 @@ public class Pessoa implements Serializable{
 	private String sexo;
 	
 	public void convertPessoaVOToPessoa(PessoaVO pessoaVO) {
-		this.id = pessoaVO.getId();
+		this.id = pessoaVO.getKey();
 		this.nome = pessoaVO.getNome();
 		this.sobrenome = pessoaVO.getSobrenome();
 		this.endereco = pessoaVO.getEndereco();

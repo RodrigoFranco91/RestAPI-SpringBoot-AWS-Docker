@@ -48,7 +48,7 @@ public class MockPessoa {
     	person.setEndereco("Addres Test" + number);
         person.setNome("First Name Test" + number);
         person.setSexo(((number % 2)==0) ? "Male" : "Female");
-        person.setId(number.longValue());
+        person.setKey(number.longValue());
         person.setSobrenome("Last Name Test" + number);
         return person;
     }
