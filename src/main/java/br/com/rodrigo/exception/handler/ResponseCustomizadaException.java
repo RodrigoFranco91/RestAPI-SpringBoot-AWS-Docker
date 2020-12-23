@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.rodrigo.exception.ExceptionResponseModelo;
+import br.com.rodrigo.exception.InvalidJwtAuthenticationException;
 import br.com.rodrigo.exception.OperacaoNaoSuportadaException;
 import br.com.rodrigo.exception.ResourceNotFoundException;
 
@@ -38,4 +39,9 @@ public class ResponseCustomizadaException extends ResponseEntityExceptionHandler
 		return new ResponseEntity<>(erm, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	public final ResponseEntity<ExceptionResponseModelo> invalidJwtAuthenticationException(Exception ex, WebRequest req){
+		ExceptionResponseModelo erm = new ExceptionResponseModelo(new Date(), ex.getMessage(), req.getDescription(false));
+		return new ResponseEntity<>(erm, HttpStatus.BAD_REQUEST);
+	}
 }
