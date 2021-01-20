@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.rodrigo.exception.ResourceNotFoundException;
 import br.com.rodrigo.modelo.Pessoa;
@@ -45,6 +46,12 @@ public class PessoaService {
 		entity.setEndereco(p.getEndereco());
 		entity.setSexo(p.getSexo());
 		return repositorio.save(entity);
+	}
+	
+	@Transactional
+	public Pessoa disablePerson(Long id) {
+		repositorio.disablePerson(id);
+		return repositorio.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada com este id"));
 	}
 	
 	/*

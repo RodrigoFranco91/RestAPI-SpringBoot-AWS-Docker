@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin
-@Api(value = "Pessoa End-point", description = "Descrição para pessoa", tags = {"Pessoa TAG", "Tag de Pessoa"})
+@Api(value = "Pessoa End-point", description = "Descrição para pessoa", tags = { "Pessoa TAG", "Tag de Pessoa" })
 @RestController
 @RequestMapping("/pessoa")
 public class PessoaController {
@@ -42,7 +43,6 @@ public class PessoaController {
 		vo.add(linkTo(methodOn(PessoaController.class).readById(vo.getKey())).withSelfRel());
 		return vo;
 	}
-
 
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO readById(@PathVariable("id") Long id) {
@@ -84,4 +84,13 @@ public class PessoaController {
 		return p;
 	}
 
+	@PatchMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
+	public PessoaVO disablePerson(@PathVariable("id") Long id) {
+		Pessoa pessoa = ps.disablePerson(id);
+		PessoaVO pessoaVO = new PessoaVO();
+		pessoaVO.convertPessoaToPessoaVO(pessoa);
+		pessoaVO.add(linkTo(methodOn(PessoaController.class).readById(id)).withSelfRel());
+		return pessoaVO;
+
+	}
 }
