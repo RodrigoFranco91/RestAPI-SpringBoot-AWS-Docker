@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.rodrigo.exception.ResourceNotFoundException;
 import br.com.rodrigo.modelo.Pessoa;
+import br.com.rodrigo.modelo.vo.PessoaVO;
 import br.com.rodrigo.repository.PersonRepository;
 
 @Service
@@ -32,6 +35,22 @@ public class PessoaService {
 	
 	public List<Pessoa> readAll (){
 		return repositorio.findAll();
+	}
+	
+	public Page<PessoaVO> readAllPaginado (Pageable pageable){
+		var page = repositorio.findAll(pageable);
+		return page.map(this::convertToPersonVO);
+	}
+	
+	public Page<PessoaVO> findPessoaByName (Pageable pageable, String firstname){
+		var page = repositorio.findPessoaByName(firstname, pageable);
+		return page.map(this::convertToPersonVO);
+	}
+	
+	private PessoaVO convertToPersonVO(Pessoa entity) {
+		PessoaVO pessoaVO = new PessoaVO();
+		pessoaVO.convertPessoaToPessoaVO(entity);
+		return pessoaVO;
 	}
 
 	public void deletePessoa(Long id) {
