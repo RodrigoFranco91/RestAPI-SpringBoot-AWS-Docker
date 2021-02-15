@@ -2,7 +2,7 @@ language: bash
 services: docker
 before_install: 
   - cd docker/api-spring-boot-udemy
-  - echo "We are in the Docker Folder!
+  - echo "We are in the Docker Folder!"
 script:
   - docker-compose build
 before_deploy:
